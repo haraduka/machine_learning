@@ -11,7 +11,7 @@
 #include <limits>
 #include <string>
 
-#define DEBUG
+//#define DEBUG
 
 /*!
  * とてもNormalなNeuralnetwork
@@ -57,6 +57,7 @@ private:
         return sigmoid(x) * (1 - sigmoid(x));
     }
 
+    /* 使おうと思ったけど結局使っていない  */
     template<int N>
     void normalize(std::array<double,N>& x)
     {
@@ -178,12 +179,13 @@ public:
         std::ofstream ofs(filename);
         for(int i=0; i<n_in; i++){
             for(int j=0; j<n_hid; j++){
-                ofs << weight_hid[i][j];
+                ofs << weight_hid[i][j] << " ";
             }
         }
+        ofs << std::endl;
         for(int i=0; i<n_hid; i++){
             for(int j=0; j<n_out; j++){
-                ofs << weight_out[i][j];
+                ofs << weight_out[i][j] << " ";
             }
         }
     }

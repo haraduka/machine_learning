@@ -7,6 +7,8 @@ using namespace std;
  * NMISTからのデータを取ってきて学習させてみた
  */
 
+//#define USE_NN1_WEIGHT
+
 constexpr int dataSize = 784;
 
 int main()
@@ -28,18 +30,34 @@ int main()
         xs.push_back(dataset);
         ys.push_back(y);
     }
+#ifdef USE_NN1_WEIGHT
+    NeuralNetwork<dataSize, 300, 10> NN("nn1_weight.dat", 4.0);
+#else
     NeuralNetwork<dataSize, 300, 10> NN(4.0);
     NN.train(xs, ys, 300, 0.01);
+#endif
     NN.saveWeight("nn1_weight.dat");
 
-    cout << NN.predict(xs[0]) << " : right-> " << ys[0] << endl;
-    cout << NN.predict(xs[1]) << " : right-> " << ys[1] << endl;
-    cout << NN.predict(xs[2]) << " : right-> " << ys[2] << endl;
-    cout << NN.predict(xs[3]) << " : right-> " << ys[3] << endl;
-    cout << NN.predict(xs[4]) << " : right-> " << ys[4] << endl;
-    cout << NN.predict(xs[5]) << " : right-> " << ys[5] << endl;
-    cout << NN.predict(xs[6]) << " : right-> " << ys[6] << endl;
-    cout << NN.predict(xs[7]) << " : right-> " << ys[7] << endl;
-    cout << NN.predict(xs[8]) << " : right-> " << ys[8] << endl;
-    cout << NN.predict(xs[9]) << " : right-> " << ys[9] << endl;
+    int tp[10], tp_fp[10], tp_fn[10];
+    for(int i=0; i<10; i++){
+        tp[i] = 0; tp_fp[i] = 0; tp_fn[i] = 0;
+    }
+
+    for(int i=0; i<dataNum; i++)
+    {
+        int pre = NN.predict(xs[i]);
+        int res = ys[i];
+        cout << pre << " " << res << endl;
+        tp_fn[res]++;
+        tp_fp[pre]++;
+        if(pre == res){
+            tp[res]++;
+        }
+    }
+    for(int i=0; i<10; i++){
+        double recall = (double)tp[i]/tp_fn[i];
+        double precision = (double)tp[i]/tp_fp[i];
+        double F1 = 2*recall*precision/(recall + precision);
+        cout << i << " : " << precision << " " << recall << " " << F1 << endl;
+    }
 }
