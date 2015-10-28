@@ -6,6 +6,7 @@ using namespace std;
 
 /*
  * NMISTからのデータを取ってきて学習させてみた
+ * input noise rateで入れた分のrateのnoiseを画像に含ませることができる
  */
 
 constexpr int dataSize = 784;
