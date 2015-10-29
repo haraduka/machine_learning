@@ -48,7 +48,7 @@ int main()
     NeuralNetwork<dataSize, 300, 10> NN(4.0);
     NN.train(xs, ys, 300, 0.01);
 #endif
-    NN.saveWeight("nn2_weight.dat");
+    NN.saveWeight(weight_filename);
 
     //scoreの計算
     int tp[10], tp_fp[10], tp_fn[10];
