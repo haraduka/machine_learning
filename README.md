@@ -1,6 +1,7 @@
 # machine_learning
-This repository is for my class assignment.
-you can copy anyway.
+
+##LICENSE
+MIT LICENSEです。LICENSE.txtを見てください
 
 ##使い方
 普通に使って下さい
